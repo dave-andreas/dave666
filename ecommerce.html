@@ -50,10 +50,10 @@
         }
     }
     var daftar=[
-        new Barang('Jack Daniels',250000,'https://d256619kyxncpv.cloudfront.net/gui/img/2018/10/10/18/2018101018_johnnie_walker_aged_18_years_shadow_original.png'),
+        new Barang('Jack Daniels',250000,'https://cdn4.masterofmalt.com/whiskies/p-2813/jack-daniels-tennessee-whiskey.jpg?ss=2.0'),
         new Barang('Jose Cuervo',200000,'https://cdn11.bigcommerce.com/s-0294a/images/stencil/1280x1280/products/72/10088/Jose_Cuervo_Gold__49218.1532960823.jpg?c=2&imbypass=on&imbypass=on'),
         new Barang('Absolut Vodka',220000,'https://images-na.ssl-images-amazon.com/images/I/51uzrNDKEPL._SL1000_.jpg'),
-        new Barang('Johnnie Walker',300000,'https://cdn4.masterofmalt.com/whiskies/p-2813/jack-daniels-tennessee-whiskey.jpg?ss=2.0')
+        new Barang('Johnnie Walker',300000,'https://d256619kyxncpv.cloudfront.net/gui/img/2018/10/10/18/2018101018_johnnie_walker_aged_18_years_shadow_original.png')
     ]
     const print=(a)=>{
         var output=''
@@ -83,23 +83,29 @@
     }
     total=0
     const tambah=(a)=>{
-        // console.log('ini '+a)
-        total+=parseInt(daftar[a].harga)
-        // console.log(daftar[a].harga)
-        listCart.push(daftar[a])
-        printCart(listCart)
-        document.getElementsByTagName('h2')[0].innerHTML=`Anda sudah memesan ${listCart.length}`
-        document.getElementById('output').innerHTML=`Total yang harus anda bayar Rp${total}`
-        document.getElementsByTagName('p')[1].innerHTML='<button onclick="checkout()">Checkout</button>'
+        konfirmasi=confirm(`Yakin ingin menambahkan ${daftar[a].produk} kedalam pesanan anda?`)
+        if(konfirmasi){
+            // console.log('ini '+a)
+            total+=parseInt(daftar[a].harga)
+            // console.log(daftar[a].harga)
+            listCart.push(daftar[a])
+            printCart(listCart)
+            document.getElementsByTagName('h2')[0].innerHTML=`Anda sudah memesan ${listCart.length}`
+            document.getElementById('output').innerHTML=`Total yang harus anda bayar Rp${total}`
+            document.getElementsByTagName('p')[1].innerHTML='<button onclick="checkout()">Checkout</button>'
+        }
     }
     const hapus=(a)=>{
-        // console.log(a)
-        total-=parseInt(listCart[a].harga)
-        // console.log(listCart[a].harga)
-        listCart.splice(a,1)
-        printCart(listCart)
-        document.getElementsByTagName('h2')[0].innerHTML=`Anda sudah memesan ${listCart.length}`
-        document.getElementById('output').innerHTML=`Total yang harus anda bayar Rp${total}`
+        konfirmasi=confirm(`Yakin ingin menghapus ${daftar[a].produk} dari pesanan anda?`)
+        if(konfirmasi){
+            // console.log(a)
+            total-=parseInt(listCart[a].harga)
+            // console.log(listCart[a].harga)
+            listCart.splice(a,1)
+            printCart(listCart)
+            document.getElementsByTagName('h2')[0].innerHTML=`Anda sudah memesan ${listCart.length}`
+            document.getElementById('output').innerHTML=`Total yang harus anda bayar Rp${total}`
+        }
     }
     const checkout=()=>{
         document.getElementsByTagName('table')[2].innerHTML=`
@@ -111,7 +117,25 @@
     const bayar=()=>{
         uang=document.getElementById('bayar').value
         if(uang<total){
-            alert
+            alert(`Uang yang anda bayarkan kurang Rp${total-uang}, ayo bayar sesuai pesanan anda`)
+        }else if(uang==total){
+            alert('Terimakasih sudah membayar dengan uang pas')
+            listCart=[]
+            printCart(listCart)
+            total=0
+            document.getElementsByTagName('h2')[0].innerHTML=`Anda belum memilih barang`
+            document.getElementById('output').innerHTML=``
+            document.getElementsByTagName('p')[1].innerHTML=''
+            document.getElementsByTagName('table')[2].innerHTML=``
+        }else if(uang>total){
+            alert(`Uang yang anda berikan berlebih, ini kembaliannya Rp${uang-total}`)
+            listCart=[]
+            printCart(listCart)
+            total=0
+            document.getElementsByTagName('h2')[0].innerHTML=`Anda belum memilih barang`
+            document.getElementById('output').innerHTML=``
+            document.getElementsByTagName('p')[1].innerHTML=''
+            document.getElementsByTagName('table')[2].innerHTML=``
         }
     }
 </script>
