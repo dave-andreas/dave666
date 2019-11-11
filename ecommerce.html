@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>E-commerce Sederhana</title>
+    <style>
+            tr,td,table{
+                border: 1px solid rgb(54, 81, 105);
+                border-collapse: collapse ;
+                padding: 10px;
+            }
+        </style>
+</head>
+<body>
+    <center>
+        <h1>E-commerce Alcohol site</h1>
+        <table>
+            <thead>
+                <tr>
+                    <td>No.</td>
+                    <td>Produk</td>
+                    <td>Harga</td>
+                    <td>Gambar</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <br>
+        <h2>Anda belum memilih</h2>
+        <p id="output"></p>
+        <table>
+
+        </table>
+        <p></p>
+        <table>
+
+        </table>
+    </center>
+</body>
+<script>
+    class Barang{
+        constructor(a,b,c){
+            this.produk=a
+            this.harga=b
+            this.image=c
+        }
+    }
+    var daftar=[
+        new Barang('Jack Daniels',250000,'https://d256619kyxncpv.cloudfront.net/gui/img/2018/10/10/18/2018101018_johnnie_walker_aged_18_years_shadow_original.png'),
+        new Barang('Jose Cuervo',200000,'https://cdn11.bigcommerce.com/s-0294a/images/stencil/1280x1280/products/72/10088/Jose_Cuervo_Gold__49218.1532960823.jpg?c=2&imbypass=on&imbypass=on'),
+        new Barang('Absolut Vodka',220000,'https://images-na.ssl-images-amazon.com/images/I/51uzrNDKEPL._SL1000_.jpg'),
+        new Barang('Johnnie Walker',300000,'https://cdn4.masterofmalt.com/whiskies/p-2813/jack-daniels-tennessee-whiskey.jpg?ss=2.0')
+    ]
+    const print=(a)=>{
+        var output=''
+        a.forEach((val,index)=>{
+            output+=`<tr>
+                <td>${index+1}</td>
+                <td>${val.produk}</td>
+                <td>${val.harga}</td>
+                <td><img src=${val.image} height='100px'></td>
+                <td><button onclick='tambah(${index})'>add to cart</button></td>
+                </tr>`
+        })
+        document.getElementsByTagName('table')[0].innerHTML=output
+    }
+    print(daftar)
+    var listCart=[]
+    const printCart=(a)=>{
+        var output=''
+        a.forEach((val,index)=>{
+            output+=`<tr>
+                <td>${val.produk}</td>
+                <td>${val.harga}</td>
+                <td><img src=${val.image} height='100px'></td>
+                <td><button onclick=hapus(${index})>delete</td>`
+        })
+        document.getElementsByTagName('table')[1].innerHTML=output
+    }
+    total=0
+    const tambah=(a)=>{
+        // console.log('ini '+a)
+        total+=parseInt(daftar[a].harga)
+        // console.log(daftar[a].harga)
+        listCart.push(daftar[a])
+        printCart(listCart)
+        document.getElementsByTagName('h2')[0].innerHTML=`Anda sudah memesan ${listCart.length}`
+        document.getElementById('output').innerHTML=`Total yang harus anda bayar Rp${total}`
+        document.getElementsByTagName('p')[1].innerHTML='<button onclick="checkout()">Checkout</button>'
+    }
+    const hapus=(a)=>{
+        // console.log(a)
+        total-=parseInt(listCart[a].harga)
+        // console.log(listCart[a].harga)
+        listCart.splice(a,1)
+        printCart(listCart)
+        document.getElementsByTagName('h2')[0].innerHTML=`Anda sudah memesan ${listCart.length}`
+        document.getElementById('output').innerHTML=`Total yang harus anda bayar Rp${total}`
+    }
+    const checkout=()=>{
+        document.getElementsByTagName('table')[2].innerHTML=`
+        <tr>
+            <td><input id='bayar' type='number' placeholder='masukan uang anda'></td>
+            <td><button onclick='bayar()'>bayar</button></td>
+        <tr>`
+    }
+    const bayar=()=>{
+        uang=document.getElementById('bayar').value
+        if(uang<total){
+            
+        }
+    }
+</script>
+</html>
