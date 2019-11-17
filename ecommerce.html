@@ -36,6 +36,7 @@
 
         </table>
         <p></p>
+        <p id="timer"></p>
         <table>
 
         </table>
@@ -92,7 +93,7 @@
             printCart(listCart)
             document.getElementsByTagName('h2')[0].innerHTML=`Anda sudah memesan ${listCart.length}`
             document.getElementById('output').innerHTML=`Total yang harus anda bayar Rp${total}`
-            document.getElementsByTagName('p')[1].innerHTML='<button onclick="checkout()">Checkout</button>'
+            document.getElementsByTagName('p')[1].innerHTML='<button onclick="checkout(),start()">Checkout</button>'
         }
     }
     const hapus=(a)=>{
@@ -107,6 +108,29 @@
             document.getElementById('output').innerHTML=`Total yang harus anda bayar Rp${total}`
         }
     }
+    var time=15
+    var timer
+    var start=()=>{
+        time=time+1
+        timer=setInterval(waktu,1000)
+    }
+    var waktu=()=>{
+        time-=1
+        document.getElementsByTagName('p')[2].innerHTML=`waktu tersisah ${time}`
+        if (time<=0){
+            clearInterval(timer)
+            alert('waktu checkout habis...')
+            listCart=[]
+            printCart(listCart)
+            total=0
+            document.getElementsByTagName('h2')[0].innerHTML=`Anda belum memilih barang`
+            document.getElementById('output').innerHTML=``
+            document.getElementsByTagName('p')[1].innerHTML=''
+            document.getElementsByTagName('table')[2].innerHTML=``
+            document.getElementsByTagName('p')[2].innerHTML=``
+            time=15
+        }
+    }
     const checkout=()=>{
         document.getElementsByTagName('table')[2].innerHTML=`
         <tr>
@@ -119,17 +143,30 @@
         if(uang<total){
             alert(`Uang yang anda bayarkan kurang Rp${total-uang}, ayo bayar sesuai pesanan anda`)
         }else if(uang==total){
+            clearInterval(timer)
             alert('Terimakasih sudah membayar dengan uang pas')
+            listCart=[]
+            printCart(listCart)
+            total=0
+            document.getElementsByTagName('h2')[0].innerHTML=`Anda belum memilih barang`
+            document.getElementById('output').innerHTML=``
+            document.getElementsByTagName('p')[1].innerHTML=''
+            document.getElementsByTagName('table')[2].innerHTML=``
+            document.getElementsByTagName('p')[2].innerHTML=``
+            time=15
         }else if(uang>total){
+            clearInterval(timer)
             alert(`Uang yang anda berikan berlebih, ini kembaliannya Rp${uang-total}`)
+            listCart=[]
+            printCart(listCart)
+            total=0
+            document.getElementsByTagName('h2')[0].innerHTML=`Anda belum memilih barang`
+            document.getElementById('output').innerHTML=``
+            document.getElementsByTagName('p')[1].innerHTML=''
+            document.getElementsByTagName('table')[2].innerHTML=``
+            document.getElementsByTagName('p')[2].innerHTML=``
+            time=15
         }
-        listCart=[]
-        printCart(listCart)
-        total=0
-        document.getElementsByTagName('h2')[0].innerHTML=`Anda belum memilih barang`
-        document.getElementById('output').innerHTML=``
-        document.getElementsByTagName('p')[1].innerHTML=''
-        document.getElementsByTagName('table')[2].innerHTML=``
     }
     //belum ada timeout
 </script>
